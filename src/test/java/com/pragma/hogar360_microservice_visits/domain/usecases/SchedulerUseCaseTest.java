@@ -4,7 +4,9 @@ import com.pragma.hogar360_microservice_visits.domain.exceptions.*;
 import com.pragma.hogar360_microservice_visits.domain.model.SchedulerModel;
 import com.pragma.hogar360_microservice_visits.domain.ports.out.*;
 import com.pragma.hogar360_microservice_visits.domain.utils.constants.DomainConstants;
+import com.pragma.hogar360_microservice_visits.domain.utils.constants.PaginationConstants;
 import com.pragma.hogar360_microservice_visits.domain.utils.constants.ValidationConstants;
+import com.pragma.hogar360_microservice_visits.domain.utils.pagination.Pagination;
 import com.pragma.hogar360_microservice_visits.domain.utils.validations.GlobalValidations;
 import com.pragma.hogar360_microservice_visits.domain.utils.validations.SchedulerValidations;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import static com.pragma.hogar360_microservice_visits.domain.utils.constants.DomainConstants.UTILITY_CLASS_MESSAGE;
 import static com.pragma.hogar360_microservice_visits.utils.constants.SchedulerTestConstants.*;
@@ -165,6 +168,100 @@ class SchedulerUseCaseTest {
     void testSchedulerValidationsConstructorThrowsIllegalStateException() {
         Exception exception = assertThrows(InvocationTargetException.class, () -> {
             Constructor<SchedulerValidations> constructor = SchedulerValidations.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        });
+
+        Throwable cause = exception.getCause();
+        assertNotNull(cause);
+        assertEquals(IllegalStateException.class, cause.getClass());
+
+        assertEquals(UTILITY_CLASS_MESSAGE, cause.getMessage());
+    }
+
+    @Test
+    @DisplayName("Get schedulers with valid filters returns paginated results")
+    void getSchedulers_WithValidFilters_ShouldReturnPaginatedResults() {
+        List<SchedulerModel> mockSchedulers = getSchedulerList();
+        when(schedulerPersistencePort.findSchedulersByFilters(
+                VALID_ID, VALID_START_DATE, VALID_END_DATE, MAX_VISITS))
+                .thenReturn(mockSchedulers);
+
+        Pagination<SchedulerModel> result = schedulerUseCase.getSchedulers(
+                VALID_START_DATE, VALID_END_DATE, VALID_ID, VALID_PAGE, PAGE_SIZE);
+
+        assertEquals(PAGE_SIZE, result.getPageSize());
+        assertEquals(VALID_PAGE, result.getPageNumber());
+        assertEquals(mockSchedulers.size(), result.getContent().size());
+        verify(schedulerPersistencePort).findSchedulersByFilters(
+                VALID_ID, VALID_START_DATE, VALID_END_DATE, MAX_VISITS);
+    }
+
+    @Test
+    @DisplayName("Get schedulers with null dates returns all results")
+    void getSchedulers_WithNullDates_ShouldReturnAllResults() {
+        List<SchedulerModel> mockSchedulers = getSchedulerList();
+        when(schedulerPersistencePort.findSchedulersByFilters(
+                VALID_ID, null, null, MAX_VISITS))
+                .thenReturn(mockSchedulers);
+
+        Pagination<SchedulerModel> result = schedulerUseCase.getSchedulers(
+                null, null, VALID_ID, VALID_PAGE, PAGE_SIZE);
+
+        assertEquals(mockSchedulers.size(), result.getContent().size());
+        verify(schedulerPersistencePort).findSchedulersByFilters(
+                VALID_ID, null, null, MAX_VISITS);
+    }
+
+    @Test
+    @DisplayName("Get schedulers with invalid page throws PageNotFoundException")
+    void getSchedulers_WithInvalidPage_ShouldThrowException() {
+        List<SchedulerModel> mockSchedulers = getSchedulerList();
+        when(schedulerPersistencePort.findSchedulersByFilters(
+                VALID_ID, VALID_START_DATE, VALID_END_DATE, MAX_VISITS))
+                .thenReturn(mockSchedulers);
+
+        assertThrows(PageNotFoundException.class,
+                () -> schedulerUseCase.getSchedulers(
+                        VALID_START_DATE, VALID_END_DATE, VALID_ID, INVALID_PAGE, PAGE_SIZE));
+    }
+
+    @Test
+    @DisplayName("Get schedulers with no results returns empty pagination")
+    void getSchedulers_WithNoResults_ShouldReturnEmptyPagination() {
+        when(schedulerPersistencePort.findSchedulersByFilters(
+                VALID_ID, VALID_START_DATE, VALID_END_DATE, MAX_VISITS))
+                .thenReturn(getEmptySchedulerList());
+
+        Pagination<SchedulerModel> result = schedulerUseCase.getSchedulers(
+                VALID_START_DATE, VALID_END_DATE, VALID_ID, VALID_PAGE, PAGE_SIZE);
+
+        assertTrue(result.getContent().isEmpty());
+        assertEquals(0, result.getTotalElements());
+    }
+
+    @Test
+    @DisplayName("Get schedulers verifies correct order (descending by start date)")
+    void getSchedulers_ShouldReturnResultsInCorrectOrder() {
+        List<SchedulerModel> mockSchedulers = getSchedulerList();
+        when(schedulerPersistencePort.findSchedulersByFilters(
+                VALID_ID, null, null, MAX_VISITS))
+                .thenReturn(mockSchedulers);
+
+        Pagination<SchedulerModel> result = schedulerUseCase.getSchedulers(
+                null, null, VALID_ID, VALID_PAGE, PAGE_SIZE);
+
+        List<SchedulerModel> content = result.getContent();
+
+        assertTrue(content.get(0).getStartDate().isAfter(content.get(1).getStartDate()));
+        assertTrue(content.get(1).getStartDate().isAfter(content.get(2).getStartDate()));
+    }
+
+    @Test
+    @DisplayName("Test PaginationConstants Constructor ThrowsIllegalStateException")
+    void testPaginationConstantsConstructorThrowsIllegalStateException() {
+        Exception exception = assertThrows(InvocationTargetException.class, () -> {
+            Constructor<PaginationConstants> constructor = PaginationConstants.class.getDeclaredConstructor();
             constructor.setAccessible(true);
             constructor.newInstance();
         });

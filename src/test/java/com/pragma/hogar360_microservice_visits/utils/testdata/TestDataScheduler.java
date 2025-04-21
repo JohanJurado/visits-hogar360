@@ -2,6 +2,8 @@ package com.pragma.hogar360_microservice_visits.utils.testdata;
 
 import com.pragma.hogar360_microservice_visits.domain.model.SchedulerModel;
 
+import java.util.List;
+
 import static com.pragma.hogar360_microservice_visits.utils.constants.SchedulerTestConstants.*;
 
 public class TestDataScheduler {
@@ -48,5 +50,24 @@ public class TestDataScheduler {
 
     public static SchedulerModel getSchedulerWithExistingRange() {
         return getValidScheduler();
+    }
+
+    public static List<SchedulerModel> getSchedulerList() {
+        SchedulerModel schedulerModel2 = getValidScheduler();
+        schedulerModel2.setStartDate(schedulerModel2.getStartDate().plusDays(PLUS_DAYS));
+        schedulerModel2.setEndDate(schedulerModel2.getEndDate().plusDays(PLUS_DAYS));
+
+        SchedulerModel schedulerModel3 = getValidScheduler();
+        schedulerModel3.setStartDate(schedulerModel2.getStartDate().plusDays(PLUS_DAYS));
+        schedulerModel3.setEndDate(schedulerModel3.getStartDate().plusDays(PLUS_DAYS));
+        return List.of(
+                getValidScheduler(),
+                schedulerModel2,
+                schedulerModel3
+        );
+    }
+
+    public static List<SchedulerModel> getEmptySchedulerList() {
+        return List.of();
     }
 }

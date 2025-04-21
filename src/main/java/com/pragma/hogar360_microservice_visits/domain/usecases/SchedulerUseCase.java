@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.pragma.hogar360_microservice_visits.domain.utils.constants.DomainConstants.MAX_VISITS_SCHEDULER;
-import static com.pragma.hogar360_microservice_visits.domain.utils.constants.PaginationConstants.ORDER_DESC;
 import static com.pragma.hogar360_microservice_visits.domain.utils.validations.SchedulerValidations.validationsBySchedulerAttributes;
 
 public class SchedulerUseCase implements ISchedulerServicePort {
@@ -42,7 +41,7 @@ public class SchedulerUseCase implements ISchedulerServicePort {
     public Pagination<SchedulerModel> getSchedulers(LocalDateTime startDate, LocalDateTime endDate, Long idHouse, Integer page, Integer size) {
         List<SchedulerModel> schedulerModelFilterList =
                 schedulerPersistencePort.findSchedulersByFilters(idHouse, startDate, endDate, MAX_VISITS_SCHEDULER);
-        return new Pagination<>(schedulerModelFilterList, page, size, Comparator.comparing(SchedulerModel::getStartDate), ORDER_DESC);
+        return new Pagination<>(schedulerModelFilterList, page, size, Comparator.comparing(SchedulerModel::getStartDate));
     }
 
     private void validateExistenceOfAttributes(SchedulerModel schedulerModel){

@@ -16,11 +16,11 @@ public class Pagination<T> {
     private int totalPages;
     private boolean last;
 
-    public Pagination(List<T> content, int pageNumber, int pageSize, Comparator<T> orderBy, boolean orderAsc) {
+    public Pagination(List<T> content, int pageNumber, int pageSize, Comparator<T> orderBy) {
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
         this.totalElements = content.size();
-        this.content = paginationContent(content, orderBy, orderAsc);
+        this.content = paginationContent(content, orderBy);
         this.totalPages = (int) Math.ceil((double) totalElements / pageSize);
         this.last = pageNumber >= totalPages - PAGE_DIFF_INDEX;
     }
@@ -58,13 +58,13 @@ public class Pagination<T> {
         return last;
     }
 
-    private List<T> paginationContent(List<T> modelList, Comparator<T> orderBy, boolean orderAsc){
+    private List<T> paginationContent(List<T> modelList, Comparator<T> orderBy){
 
         if (modelList.isEmpty()){
             return modelList;
         }
 
-        List<T> sortedModelList = orderList(modelList, orderBy, orderAsc);
+        List<T> sortedModelList = orderList(modelList, orderBy);
 
         int fromIndex = pageNumber * pageSize;
         int toIndex = Math.min(fromIndex + pageSize, totalElements);
@@ -76,21 +76,16 @@ public class Pagination<T> {
         return sortedModelList.subList(fromIndex, toIndex);
     }
 
-    private List<T> orderList(List<T> modelList, Comparator<T> orderBy, boolean orderAsc){
+    private List<T> orderList(List<T> modelList, Comparator<T> orderBy){
 
         if (modelList.size() == SIZE_ONE_LIST_PAGINATION){
             return modelList;
         }
 
-        if (orderAsc) {
-            return modelList.stream()
-                    .sorted(orderBy)
-                    .toList();
-        } else {
-            return modelList.stream()
-                    .sorted(orderBy.reversed())
-                    .toList();
-        }
+        return modelList.stream()
+                .sorted(orderBy.reversed())
+                .toList();
+
     }
 
 }
