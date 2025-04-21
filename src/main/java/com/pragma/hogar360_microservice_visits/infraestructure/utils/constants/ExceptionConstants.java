@@ -8,6 +8,9 @@ public class ExceptionConstants {
         throw new IllegalStateException(UTILITY_CLASS_MESSAGE);
     }
 
+    // page
+    public static final String PAGE_NOT_FOUND_MESSAGE = "Page not found.";
+
     // specific validations Schedule
     public static final String END_DATE_CANNOT_BE_NULL_MESSAGE = "The end date cannot be null";
     public static final String START_DATE_CANNOT_BE_NULL_MESSAGE = "The start date cannot be null";

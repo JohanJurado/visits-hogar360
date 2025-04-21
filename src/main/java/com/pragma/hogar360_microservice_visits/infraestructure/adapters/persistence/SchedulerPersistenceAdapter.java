@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,5 +25,10 @@ public class SchedulerPersistenceAdapter implements ISchedulerPersistencePort {
     @Override
     public boolean existByIdAndRangeTime(Long idHouse, LocalDateTime startDate, LocalDateTime endDate) {
         return schedulerRepository.existByIdAndRangeTime(idHouse, startDate, endDate);
+    }
+
+    @Override
+    public List<SchedulerModel> findSchedulersByFilters(Long idHouse, LocalDateTime startDate, LocalDateTime endDate, Integer maxVisitsScheduler) {
+        return schedulerEntityMapper.entityListToModelList(schedulerRepository.findSchedulersByFilters(idHouse, startDate, endDate, maxVisitsScheduler));
     }
 }

@@ -53,4 +53,12 @@ public class ControllerAdvisor {
     public ResponseEntity<ExceptionResponse> handleForbidden() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionResponse(NOT_PERMISSIONS_MESSAGE, LocalDateTime.now()));
     }
+
+    @ExceptionHandler(PageNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> pageNotFoundException(PageNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionResponse(PAGE_NOT_FOUND_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
 }

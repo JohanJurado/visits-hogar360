@@ -7,4 +7,8 @@ public class DomainConstants {
     }
 
     public static final String UTILITY_CLASS_MESSAGE = "Utility class";
+
+    // scheduler
+    public static final Long INITIAL_COUNT_VISITS = 0L;
+    public static final Integer MAX_VISITS_SCHEDULER = 2;
 }
