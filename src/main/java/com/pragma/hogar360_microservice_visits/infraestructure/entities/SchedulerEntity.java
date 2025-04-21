@@ -17,6 +17,7 @@ public class SchedulerEntity {
     private Long idHouse;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Long visitsCount;
 
     public Long getId() {
         return id;
@@ -56,5 +57,13 @@ public class SchedulerEntity {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Long getVisitsCount() {
+        return visitsCount;
+    }
+
+    public void setVisitsCount(Long visitsCount) {
+        this.visitsCount = visitsCount;
     }
 }

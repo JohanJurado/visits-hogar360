@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface ISchedulerRepository extends JpaRepository<SchedulerEntity, Long> {
     @Query("""
@@ -20,4 +21,16 @@ public interface ISchedulerRepository extends JpaRepository<SchedulerEntity, Lon
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+    @Query("SELECT s FROM SchedulerEntity s " +
+            "WHERE (:idHouse IS NULL OR s.idHouse = :idHouse) " +
+            "AND (:startDate IS NULL OR s.startDate = :startDate) " +
+            "AND (:endDate IS NULL OR s.endDate = :endDate) " +
+            "AND (s.visitsCount < :maxVisitsScheduler) " +
+            "AND s.startDate >= SYSDATE")
+    List<SchedulerEntity> findSchedulersByFilters(
+            @Param("idHouse") Long idHouse,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("maxVisitsScheduler") Integer maxVisitsScheduler);
 }

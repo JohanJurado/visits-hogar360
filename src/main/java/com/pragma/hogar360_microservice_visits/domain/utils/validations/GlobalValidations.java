@@ -18,9 +18,9 @@ public class GlobalValidations {
         }
     }
 
-    public static String normalizeToUpper(String attribute) {
-        String normalized = Normalizer.normalize(attribute, Normalizer.Form.NFD);
-        normalized = normalized.replaceAll(VALIDATIONS_STR_REGEX, VALIDATIONS_STR_REGEX_TO_BLANK);
-        return normalized.toUpperCase();
-    }
+//    public static String normalizeToUpper(String attribute) {
+//        String normalized = Normalizer.normalize(attribute, Normalizer.Form.NFD);
+//        normalized = normalized.replaceAll(VALIDATIONS_STR_REGEX, VALIDATIONS_STR_REGEX_TO_BLANK);
+//        return normalized.toUpperCase();
+//    }
 }

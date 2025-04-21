@@ -1,0 +1,91 @@
+package com.pragma.hogar360_microservice_visits.domain.utils.pagination;
+
+import com.pragma.hogar360_microservice_visits.domain.exceptions.PageNotFoundException;
+
+import java.util.Comparator;
+import java.util.List;
+
+import static com.pragma.hogar360_microservice_visits.domain.utils.constants.PaginationConstants.*;
+
+public class Pagination<T> {
+
+    private List<T> content;
+    private int pageNumber;
+    private int pageSize;
+    private int totalElements;
+    private int totalPages;
+    private boolean last;
+
+    public Pagination(List<T> content, int pageNumber, int pageSize, Comparator<T> orderBy) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.totalElements = content.size();
+        this.content = paginationContent(content, orderBy);
+        this.totalPages = (int) Math.ceil((double) totalElements / pageSize);
+        this.last = pageNumber >= totalPages - PAGE_DIFF_INDEX;
+    }
+
+    public Pagination(List<T> content, int pageNumber, int pageSize, int totalPages, boolean last) {
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+        this.content = content;
+        this.totalElements = content.size();
+        this.totalPages = totalPages;
+        this.last = last;
+    }
+
+    public List<T> getContent() {
+        return content;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public int getTotalElements() {
+        return totalElements;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public boolean isLast() {
+        return last;
+    }
+
+    private List<T> paginationContent(List<T> modelList, Comparator<T> orderBy){
+
+        if (modelList.isEmpty()){
+            return modelList;
+        }
+
+        List<T> sortedModelList = orderList(modelList, orderBy);
+
+        int fromIndex = pageNumber * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, totalElements);
+
+        if (fromIndex >= sortedModelList.size() || fromIndex < PAGE_INVALID_NEGATIVE) {
+            throw new PageNotFoundException();
+        }
+
+        return sortedModelList.subList(fromIndex, toIndex);
+    }
+
+    private List<T> orderList(List<T> modelList, Comparator<T> orderBy){
+
+        if (modelList.size() == SIZE_ONE_LIST_PAGINATION){
+            return modelList;
+        }
+
+        return modelList.stream()
+                .sorted(orderBy.reversed())
+                .toList();
+
+    }
+
+}

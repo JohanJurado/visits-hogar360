@@ -2,6 +2,8 @@ package com.pragma.hogar360_microservice_visits.domain.model;
 
 import java.time.LocalDateTime;
 
+import static com.pragma.hogar360_microservice_visits.domain.utils.constants.DomainConstants.INITIAL_COUNT_VISITS;
+
 public class SchedulerModel {
 
     private Long id;
@@ -9,8 +11,10 @@ public class SchedulerModel {
     private Long idHouse;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private Long visitsCount;
 
     public SchedulerModel() {
+        visitsCount = INITIAL_COUNT_VISITS;
         // insert data with setters
     }
 
@@ -52,5 +56,13 @@ public class SchedulerModel {
 
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public Long getVisitsCount() {
+        return visitsCount;
+    }
+
+    public void setVisitsCount(Long visitsCount) {
+        this.visitsCount = visitsCount;
     }
 }
