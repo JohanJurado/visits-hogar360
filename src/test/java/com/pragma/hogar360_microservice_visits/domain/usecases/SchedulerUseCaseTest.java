@@ -87,7 +87,7 @@ class SchedulerUseCaseTest {
     void save_WithExceededLimitDate_ShouldThrowScheduleExceedsLimitException() {
         SchedulerModel scheduler = getSchedulerWithExceededLimit();
 
-        assertThrows(ScheduleExceedsLimitException.class, () -> schedulerUseCase.save(scheduler));
+        assertThrows(SchedulerExceedsLimitException.class, () -> schedulerUseCase.save(scheduler));
         verify(schedulerPersistencePort, never()).save(any());
     }
 

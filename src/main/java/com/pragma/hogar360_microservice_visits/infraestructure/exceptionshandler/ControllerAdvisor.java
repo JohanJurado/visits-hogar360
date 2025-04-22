@@ -44,8 +44,8 @@ public class ControllerAdvisor {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(INVALID_DATE_RANGE_MESSAGE, LocalDateTime.now()));
     }
 
-    @ExceptionHandler(ScheduleExceedsLimitException.class)
-    public ResponseEntity<ExceptionResponse> scheduleExceedsLimitException(ScheduleExceedsLimitException exception) {
+    @ExceptionHandler(SchedulerExceedsLimitException.class)
+    public ResponseEntity<ExceptionResponse> scheduleExceedsLimitException(SchedulerExceedsLimitException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ExceptionResponse(SCHEDULE_EXCEEDS_LIMIT_MESSAGE, LocalDateTime.now()));
     }
 
@@ -58,6 +58,54 @@ public class ControllerAdvisor {
     public ResponseEntity<ExceptionResponse> pageNotFoundException(PageNotFoundException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ExceptionResponse(PAGE_NOT_FOUND_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(EmailBuyerCannotBeEmptyException.class)
+    public ResponseEntity<ExceptionResponse> emailBuyerCannotBeEmptyException(EmailBuyerCannotBeEmptyException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponse(EMAIL_BUYER_CANNOT_BE_EMPTY_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(EmailNotAllowedException.class)
+    public ResponseEntity<ExceptionResponse> emailNotAllowedException(EmailNotAllowedException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponse(EMAIL_NOT_ALLOWED_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(IdSchedulerCannotBeNullException.class)
+    public ResponseEntity<ExceptionResponse> idSchedulerCannotBeNullException(IdSchedulerCannotBeNullException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponse(ID_SCHEDULER_CANNOT_BE_NULL_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(SchedulerNotFoundException.class)
+    public ResponseEntity<ExceptionResponse> schedulerNotFoundException(SchedulerNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ExceptionResponse(SCHEDULER_NOT_FOUND_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(SchedulerVisitCountExceedsLimitException.class)
+    public ResponseEntity<ExceptionResponse> schedulerVisitCountExceedsLimitException(SchedulerVisitCountExceedsLimitException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponse(SCHEDULER_VISIT_COUNT_EXCEEDS_LIMIT_MESSAGE, LocalDateTime.now()
+                )
+        );
+    }
+
+    @ExceptionHandler(EmailBuyerAlreadyExistException.class)
+    public ResponseEntity<ExceptionResponse> emailBuyerAlreadyExistException(EmailBuyerAlreadyExistException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionResponse(EMAIL_BUYER_ALREADY_EXIST_MESSAGE, LocalDateTime.now()
                 )
         );
     }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,12 @@ public class SchedulerPersistenceAdapter implements ISchedulerPersistencePort {
     }
 
     @Override
-    public List<SchedulerModel> findSchedulersByFilters(Long idHouse, LocalDateTime startDate, LocalDateTime endDate, Integer maxVisitsScheduler) {
+    public Optional<SchedulerModel> findById(Long id) {
+        return schedulerEntityMapper.entityOptionalToModelOptional(schedulerRepository.findById(id));
+    }
+
+    @Override
+    public List<SchedulerModel> findSchedulersByFilters(Long idHouse, LocalDateTime startDate, LocalDateTime endDate, Long maxVisitsScheduler) {
         return schedulerEntityMapper.entityListToModelList(schedulerRepository.findSchedulersByFilters(idHouse, startDate, endDate, maxVisitsScheduler));
     }
 }

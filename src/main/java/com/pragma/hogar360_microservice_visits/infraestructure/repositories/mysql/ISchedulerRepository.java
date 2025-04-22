@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ISchedulerRepository extends JpaRepository<SchedulerEntity, Long> {
     @Query("""
@@ -32,5 +33,7 @@ public interface ISchedulerRepository extends JpaRepository<SchedulerEntity, Lon
             @Param("idHouse") Long idHouse,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            @Param("maxVisitsScheduler") Integer maxVisitsScheduler);
+            @Param("maxVisitsScheduler") Long maxVisitsScheduler);
+
+    Optional<SchedulerEntity> findById(Long id);
 }

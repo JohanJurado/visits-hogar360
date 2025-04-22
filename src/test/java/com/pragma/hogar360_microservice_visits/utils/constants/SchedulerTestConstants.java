@@ -18,7 +18,7 @@ public class SchedulerTestConstants {
     public static final int VALID_PAGE = 0;
     public static final int INVALID_PAGE = -1;
     public static final int PAGE_SIZE = 10;
-    public static final int MAX_VISITS = 2;
+    public static final Long MAX_VISITS = 2L;
 
     public static final int PLUS_DAYS = 1;
 }

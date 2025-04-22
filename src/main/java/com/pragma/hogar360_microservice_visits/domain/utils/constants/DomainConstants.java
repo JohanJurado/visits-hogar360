@@ -10,5 +10,5 @@ public class DomainConstants {
 
     // scheduler
     public static final Long INITIAL_COUNT_VISITS = 0L;
-    public static final Integer MAX_VISITS_SCHEDULER = 2;
+    public static final Long MAX_VISITS_SCHEDULER = 2L;
 }

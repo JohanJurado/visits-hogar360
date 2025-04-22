@@ -17,7 +17,12 @@ public class SchedulerEntity {
     private Long idHouse;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+
+    @Column(nullable = false)
     private Long visitsCount;
+
+    @Version
+    private Long version;
 
     public Long getId() {
         return id;
@@ -65,5 +70,13 @@ public class SchedulerEntity {
 
     public void setVisitsCount(Long visitsCount) {
         this.visitsCount = visitsCount;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

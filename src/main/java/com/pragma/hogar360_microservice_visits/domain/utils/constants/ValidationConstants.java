@@ -9,6 +9,8 @@ public class ValidationConstants {
     }
 
     public static final String VALIDATIONS_STR_REGEX = "\\p{M}";
+    public static final String REGEX_VALID_EMAIL_FORMAT = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,4}$";
+    public static final String VALIDATIONS_STR_FROM_NULL_TO_BLANK = "";
     public static final String VALIDATIONS_STR_REGEX_TO_BLANK = "";
 
     public static final Long MAX_VALID_DATE_IN_MONTHS = 3L;

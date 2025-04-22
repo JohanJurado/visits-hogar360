@@ -13,6 +13,8 @@ public class SchedulerModel {
     private LocalDateTime endDate;
     private Long visitsCount;
 
+    private Long version;
+
     public SchedulerModel() {
         visitsCount = INITIAL_COUNT_VISITS;
         // insert data with setters
@@ -64,5 +66,17 @@ public class SchedulerModel {
 
     public void setVisitsCount(Long visitsCount) {
         this.visitsCount = visitsCount;
+    }
+
+    public void addVisitCount(){
+        visitsCount++;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

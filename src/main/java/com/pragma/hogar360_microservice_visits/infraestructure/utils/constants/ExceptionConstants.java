@@ -11,6 +11,14 @@ public class ExceptionConstants {
     // page
     public static final String PAGE_NOT_FOUND_MESSAGE = "Page not found.";
 
+    // specific validations visit
+    public static final String EMAIL_BUYER_CANNOT_BE_EMPTY_MESSAGE = "Email buyer cannot be empty";
+    public static final String EMAIL_NOT_ALLOWED_MESSAGE = "The email format entered is not allowed";
+    public static final String ID_SCHEDULER_CANNOT_BE_NULL_MESSAGE = "The scheduler cannot be null";
+    public static final String SCHEDULER_NOT_FOUND_MESSAGE = "Scheduler not found";
+    public static final String SCHEDULER_VISIT_COUNT_EXCEEDS_LIMIT_MESSAGE = "The visit cannot have more than two clients on the same scheduler";
+    public static final String EMAIL_BUYER_ALREADY_EXIST_MESSAGE = "This buyer email already exist in this scheduler";
+
     // specific validations Schedule
     public static final String END_DATE_CANNOT_BE_NULL_MESSAGE = "The end date cannot be null";
     public static final String START_DATE_CANNOT_BE_NULL_MESSAGE = "The start date cannot be null";

@@ -35,7 +35,7 @@ public class SchedulerValidations {
 
     private static void validateLimitScheduler(LocalDateTime start){
         if (start.isAfter(LocalDateTime.now().plusWeeks(MAX_VALID_DATE_IN_MONTHS))) {
-            throw new ScheduleExceedsLimitException();
+            throw new SchedulerExceedsLimitException();
         }
     }
 }

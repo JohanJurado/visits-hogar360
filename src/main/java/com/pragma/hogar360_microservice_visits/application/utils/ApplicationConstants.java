@@ -8,5 +8,6 @@ public class ApplicationConstants {
         throw new IllegalStateException(UTILITY_CLASS_MESSAGE);
     }
 
-    public static final String SAVE_SCHEDULER_RESPONSE = "Visit scheduler have been successfully added";
+    public static final String SAVE_SCHEDULER_RESPONSE = "The visit scheduler have been successfully added";
+    public static final String SAVE_VISIT_RESPONSE = "The visit has been added successfully";
 }
